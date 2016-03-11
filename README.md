@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # OptClient
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/opt_client`. To experiment with that code, run `bin/console` for an interactive prompt.
@@ -39,3 +40,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+=======
+# opt_client
+api gem for test_api repo
+>>>>>>> 97cb6bd1e4d7055e88e8c26bb51ef4321cfe6a21
