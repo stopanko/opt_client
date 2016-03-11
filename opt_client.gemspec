@@ -32,6 +32,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
 
   spec.add_runtime_dependency "rest-client"
-  spec.add_runtime_dependency "data_mapper"
   spec.add_runtime_dependency "json"
 end

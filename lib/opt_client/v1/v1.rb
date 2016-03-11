@@ -1,18 +1,18 @@
 module OptClient
   module V1
     class Client
-      include DataMapper::Resource
-
-      property :id, Integer
-      property :email, String, :required => true, :format => :email_address
-      property :mobile, Integer, :required => true
-      property :first_name, String, :required => true
-      property :last_name, String, :required => true
-      property :permission_type, String, :required => true, :set => %w|one-time permanent|
-      property :channel, String, :required => true, :set => %w| sms email sms+email |
-
-      property :company_name, String, :required => true, :unique => [:channel],
-               message: "You can create Only one channel type for Company"
+      # include DataMapper::Resource
+      #
+      # property :id, Integer
+      # property :email, String, :required => true, :format => :email_address
+      # property :mobile, Integer, :required => true
+      # property :first_name, String, :required => true
+      # property :last_name, String, :required => true
+      # property :permission_type, String, :required => true, :set => %w|one-time permanent|
+      # property :channel, String, :required => true, :set => %w| sms email sms+email |
+      #
+      # property :company_name, String, :required => true, :unique => [:channel],
+      #          message: "You can create Only one channel type for Company"
 
 
       attr_accessor	:id, :email, :mobile, :first_name,
@@ -43,16 +43,12 @@ module OptClient
       end
 
       def save
-        return {responce: 'set instrument instance or use Instrument create method',status: :error} unless @instrument
-        if @id
-          update
-        else
-          create
-        end
+        @id ? update : create
       end
 
       def destroy
-        @instrument.destroy(@id)
+        @instrument.destroy(@id) if @id
+        false
       end
 
     end
@@ -61,7 +57,7 @@ module OptClient
     class Instrument
 
       def initialize(version = 'v1', host = 'http://localhost:4567')
-        @version = version
+        @version = version.downcase
         @host = host
         @secret_key = Digest::MD5.hexdigest 'test_api'
       end
@@ -71,7 +67,7 @@ module OptClient
                                    client: client_options(options), secret: @secret_key
 
         response = JSON.parse(response, :symbolize_names => true)
-        raise(response.to_json) unless response[:client]
+        return response.to_json unless response[:client]
         Client.new(response[:client], self)
       end
 
@@ -81,7 +77,7 @@ module OptClient
                                     client: client_options(options), secret: @secret_key
 
         response = JSON.parse(response, :symbolize_names => true)
-        raise(response.to_json) unless response[:client]
+        return response unless response[:client]
         Client.new(response[:client], self)
       end
 
@@ -90,7 +86,7 @@ module OptClient
                                    client: {id: id}, secret: @secret_key
 
         response = JSON.parse(response, :symbolize_names => true)
-        raise(response.to_json) unless response[:status] == 'ok'
+        return response unless response[:status] == 'ok'
         true
       end
 
