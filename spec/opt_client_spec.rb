@@ -2,7 +2,6 @@ describe 'OptClient' do
 
 
 
-
 end
 
 

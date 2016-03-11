@@ -1,23 +1,21 @@
 module OptClient
   module V1
     class Client
-      # include DataMapper::Resource
-      #
-      # property :id, Integer
-      # property :email, String, :required => true, :format => :email_address
-      # property :mobile, Integer, :required => true
-      # property :first_name, String, :required => true
-      # property :last_name, String, :required => true
-      # property :permission_type, String, :required => true, :set => %w|one-time permanent|
-      # property :channel, String, :required => true, :set => %w| sms email sms+email |
-      #
-      # property :company_name, String, :required => true, :unique => [:channel],
-      #          message: "You can create Only one channel type for Company"
 
+      @@ObjectFields = [:id, :email, :mobile, :first_name,
+          :last_name, :permission_type,
+          :channel, :company_name, :instrument]
+
+      def attributes
+        self.instance_variables.map do |var|
+          key = var.to_s.gsub('@','').to_sym
+          [key, instance_variable_get(var)] if @@ObjectFields.include?(key)
+        end.to_h
+      end
 
       attr_accessor	:id, :email, :mobile, :first_name,
-                     :last_name, :permission_type,
-                     :channel, :company_name, :instrument
+                      :last_name, :permission_type,
+                      :channel, :company_name, :instrument
 
       def initialize(options = {}, instrument = nil)
         @id = options[:id]
@@ -97,7 +95,7 @@ module OptClient
                                       :last_name, :permission_type,
                                       :channel, :company_name].include?(key)
         }
-            .delete_if { |k, v| v.nil? }
+        .delete_if { |k, v| v.nil? }
       end
 
     end
