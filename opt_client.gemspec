@@ -31,6 +31,14 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec"
 
+  spec.add_development_dependency "octokit"
+  spec.add_development_dependency "sinatra"
+  spec.add_development_dependency "data_mapper"
+  spec.add_development_dependency "sinatra-contrib"
+  spec.add_development_dependency "dm-migrations"
+  spec.add_development_dependency "dm-sqlite-adapter"
+  spec.add_development_dependency "json"
+
   spec.add_runtime_dependency "rest-client"
   spec.add_runtime_dependency "json"
 end

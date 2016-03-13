@@ -7,10 +7,13 @@ module OptClient
           :channel, :company_name, :instrument]
 
       def attributes
+        variables =
         self.instance_variables.map do |var|
           key = var.to_s.gsub('@','').to_sym
           [key, instance_variable_get(var)] if @@ObjectFields.include?(key)
-        end.to_h
+        end
+
+        variables.to_h.delete_if{|k, v| v == nil}
       end
 
       attr_accessor	:id, :email, :mobile, :first_name,
@@ -45,7 +48,7 @@ module OptClient
       end
 
       def destroy
-        @instrument.destroy(@id) if @id
+        return @instrument.destroy(@id) if @id
         false
       end
 
@@ -60,12 +63,24 @@ module OptClient
         @secret_key = Digest::MD5.hexdigest 'test_api'
       end
 
+      attr_reader :version, :host
+
+      def connected?
+        begin
+          response = RestClient.get "#{@host}/connected"
+          response = JSON.parse(response, :symbolize_names => true)
+          response[:status] == 'ok'
+        rescue
+          false
+        end
+      end
+
       def create(options = {})
         response = RestClient.post "#{@host}/api/#{@version}/clients",
                                    client: client_options(options), secret: @secret_key
 
         response = JSON.parse(response, :symbolize_names => true)
-        return response.to_json unless response[:client]
+        return response unless response[:client]
         Client.new(response[:client], self)
       end
 
