@@ -59,13 +59,15 @@ model_options = {email: 'newemail@gmail.com', mobile: '12334',
 
 ----
 ```ruby
-instrument.create(model_options)
+client = instrument.create(model_options)
 ```
+
 return `Client` object if created and `{error: client.errors.full_messages.join(', '), status: :error}.to_json` if error
+
 ----
 
 ```ruby
-instrument.update(model_options)
+client = instrument.update(model_options)
 ```
 <b>Need contains object id</b>
 
@@ -76,8 +78,55 @@ return updated `Client` object if success or `{error: "Not updated. ID: #{params
 ```ruby
 instrument.destroy(id)
 ```
+
 return `true` if success and `{error: "Record Not found with id #{params[:client][:id]}", status: :error}.to_json` if error
+
 ----
+
+###Client model methods
+You can get client model from api
+
+```ruby
+client = instrument.create(model_options)
+client = instrument.update(model_options)
+```
+or create by yourself
+
+```ruby
+client = Client.new(model_options, instrument)
+```
+<b> For use model api methods you need set an instrument instance</b> <br>
+<b> All methods return error if instrument option empty</b>
+
+----
+
+```ruby
+client.create
+```
+use instrument create method
+
+----
+
+```ruby
+client.email = 'new@email.com'
+client.update
+```
+or
+
+```ruby
+client.update(email: 'new@email.com')
+```
+update client model
+----
+
+```ruby
+client.email = 'new@email.com'
+client.save
+```
+Use create method if client.id empty or update if client.id present
+
+----
+
 
 ## Development
 
