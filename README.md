@@ -128,6 +128,13 @@ Use create method if client.id empty or update if client.id present
 
 ----
 
+```ruby
+client.destroy
+```
+Use destroy method
+
+----
+
 
 ## Development
 
