@@ -39,7 +39,7 @@ instrument = OptClient.init_api(version: 'v1', host: 'https://opttestapi.herokua
     host: 'http://localhost:4567'
 
 
-for use api in locale machine run https://github.com/stopanko/test_api server with `rackup -E test` option and use `http://localhost:9292` host
+for use api in locale machine run https://github.com/stopanko/test_api server with `rackup ` for development and `rackup -E test` for run opt_client tests option and use `http://localhost:9292` host 
 
 ###Client Model
 ```ruby
