@@ -117,6 +117,7 @@ or
 client.update(email: 'new@email.com')
 ```
 update client model
+
 ----
 
 ```ruby
