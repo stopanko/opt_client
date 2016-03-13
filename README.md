@@ -1,9 +1,8 @@
 <<<<<<< HEAD
 # OptClient
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/opt_client`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Gem for use api https://github.com/stopanko/test_api
+API server also running on https://opttestapi.herokuapp.com/
 
 ## Installation
 
@@ -23,7 +22,62 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Use `require 'opt_client'` if gem not required with bundler.
+
+###Init api instrument
+```ruby
+instrument = OptClient.init_api
+```
+or with options
+```ruby
+instrument = OptClient.init_api(version: 'v1', host: 'https://opttestapi.herokuapp.com/')
+```
+
+
+####defult options
+    version: 'v1'
+    host: 'http://localhost:4567'
+
+
+for use api in locale machine run https://github.com/stopanko/test_api server with `rackup -E test` option and use `http://localhost:9292` host
+
+###Client Model
+```ruby
+model_options = {email: 'newemail@gmail.com', mobile: '12334',
+                            first_name: 'Stepan', last_name: 'Boichyshyn',
+                            permission_type: 'permanent', channel: 'sms',
+                            company_name: '3444'}
+```
+####validations
+-- channel -> sms, email, sms+email <br>
+-- permission_type -> one-time, permanent <br>
+-- only one chanel_type for one company_name <br>
+
+##Methods
+
+`instrument.connected?` return `true` or `false`
+
+----
+```ruby
+instrument.create(model_options)
+```
+return `Client` object if created and `{error: client.errors.full_messages.join(', '), status: :error}.to_json` if error
+----
+
+```ruby
+instrument.update(model_options)
+```
+<b>Need contains object id</b>
+
+return updated `Client` object if success or `{error: "Not updated. ID: #{params[:client][:id]}", status: :error}.to_json` if error
+
+----
+
+```ruby
+instrument.destroy(id)
+```
+return `true` if success and `{error: "Record Not found with id #{params[:client][:id]}", status: :error}.to_json` if error
+----
 
 ## Development
 
