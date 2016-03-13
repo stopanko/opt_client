@@ -65,6 +65,10 @@ module OptClient
 
       attr_reader :version, :host
 
+      def clean
+        response = RestClient.get "#{@host}/clean"
+      end
+
       def connected?
         begin
           response = RestClient.get "#{@host}/connected"
